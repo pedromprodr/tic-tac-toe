@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.title {
+  height: 200px;
+}
+img {
+    height: 100%; 
+    width: 100%; 
+    object-fit: contain;
+}
+.gameContainer {
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  width: 600px;
+  height: 600px;
+  background-color: black;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 10px;
+}
+.cell {
+  background-color: white;
+}
