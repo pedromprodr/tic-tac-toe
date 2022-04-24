@@ -20,7 +20,12 @@ body {
   justify-content: center;
   height: 10vh;
   font-weight: 800;
-  font-size: calc(0.75em + 10vmin);
+  font-size: calc(0.75em + 8vmin);
+}
+.announcement{
+  margin-top: 1%;
+  font-weight: 700;
+  font-size: calc(0.75em + 3vmin);
 }
 .subtitle{
   font-size: 20px;
@@ -38,8 +43,8 @@ img {
   display: grid;
   width: 60vw;
   height: 60vw;
-  max-width: 600px;
-  max-height: 600px;
+  max-width: 500px;
+  max-height: 500px;
   background-color: black;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
@@ -63,4 +68,7 @@ img {
 .scoredisplay{
   font-size:  calc(1em + 2vmin);
   font-weight: 100;
+}
+.player{
+  font-weight: 400;
 }

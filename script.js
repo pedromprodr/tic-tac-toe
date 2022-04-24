@@ -15,8 +15,9 @@ const Play = (x, y) => {
   return { getX: getX, getY: getY, setValue: setValue, getValue: getValue };
 };
 
-const board = [];
+let board = [];
 let turn = 0;
+let block = false;
 
 const gameBoard = (() => {
   const init = () => {
@@ -52,7 +53,10 @@ const gameBoard = (() => {
   const play = (x, y, value) => {
     if (board[search(x, y)].getValue() === "") {
       board[search(x, y)].setValue(value);
-      console.log(checkForWin());
+      if (checkForWin() === "x" || checkForWin() === "o") {
+        processWin(checkForWin());
+        console.log(checkForWin());
+      }
     }
   };
 
@@ -120,33 +124,59 @@ const gameBoard = (() => {
   return { init, play, logGame };
 })();
 
+function placeMark(cell) {
+  if (!block) {
+    let classes = cell.classList.toString();
+    let rowCol = Array.from(classes.replace(/\D/g, ""));
+
+    if (
+      !document
+        .querySelector(".row" + rowCol[0] + ".col" + rowCol[1])
+        .hasChildNodes()
+    ) {
+      let mark = document.createElement("img");
+      if (turn % 2 == 0) {
+        gameBoard.play(rowCol[0] - 1, rowCol[1] - 1, "x");
+        mark.src = "/img/cross.svg";
+      } else {
+        gameBoard.play(rowCol[0] - 1, rowCol[1] - 1, "o");
+        mark.src = "/img/circle.svg";
+      }
+      cell.appendChild(mark);
+      turn++;
+    }
+  }
+}
+
+gameBoard.init();
+let p1Score = document.querySelector(".scoredisplay.p1");
+let p2Score = document.querySelector(".scoredisplay.p2");
+let announcement = document.querySelector(".announcement");
+
+function processWin(value) {
+  if (value == "x") p1Score.textContent = parseInt(p1Score.textContent) + 1;
+  if (value == "o") p2Score.textContent = parseInt(p2Score.textContent) + 1;
+  announcement.textContent = value.toUpperCase() + " WINS!";
+  block = true;
+ 
+  setTimeout(function () {
+    turn = 0;
+    board = [];
+    gameBoard.init();
+    announcement.textContent = "NEW ROUND";
+    let cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+      if (cell.hasChildNodes()) {
+        cell.removeChild(cell.firstChild);
+      }
+    }); 
+    block = false;
+  }, 3000);
+ 
+}
 let cells = document.querySelectorAll(".cell");
 cells.forEach((cell) => {
   cell.addEventListener("click", () => {
     placeMark(cell);
   });
 });
-
-function placeMark(cell) {
-  let classes = cell.classList.toString();
-  let rowCol = Array.from(classes.replace(/\D/g, ""));
-  console.log(rowCol);
-  if (
-    !document
-      .querySelector(".row" + rowCol[0] + ".col" + rowCol[1])
-      .hasChildNodes()
-  ) {
-    let mark = document.createElement("img");
-    if (turn % 2 == 0) {
-      gameBoard.play(rowCol[0] - 1, rowCol[1] - 1, "o");
-      mark.src = "/img/circle.svg";
-    } else {
-      gameBoard.play(rowCol[0] - 1, rowCol[1] - 1, "x");
-      mark.src = "/img/cross.svg";
-    }
-    cell.appendChild(mark);
-    turn++;
-  }
-}
-
-gameBoard.init();
