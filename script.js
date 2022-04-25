@@ -53,7 +53,7 @@ const gameBoard = (() => {
   const play = (x, y, value) => {
     if (board[search(x, y)].getValue() === "") {
       board[search(x, y)].setValue(value);
-      if (checkForWin() === "x" || checkForWin() === "o") {
+      if (checkForWin() === "x" || checkForWin() === "o"||turn==8) {
         processWin(checkForWin());
         console.log(checkForWin());
       }
@@ -156,7 +156,11 @@ let announcement = document.querySelector(".announcement");
 function processWin(value) {
   if (value == "x") p1Score.textContent = parseInt(p1Score.textContent) + 1;
   if (value == "o") p2Score.textContent = parseInt(p2Score.textContent) + 1;
-  announcement.textContent = value.toUpperCase() + " WINS!";
+  if(value===undefined){
+    announcement.textContent = "IT'S A TIE";
+  }else{
+    announcement.textContent = value.toUpperCase() + " WINS!";
+  }
   block = true;
  
   setTimeout(function () {
